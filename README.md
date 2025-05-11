@@ -2,6 +2,8 @@
 
 A full-stack web application with a JavaScript frontend and .NET Azure Function backend, optimized for development in VS Code with Dev Containers.
 
+![Frontend Screenshot](front-end.png)
+
 ## Dev Container Quick Start (Recommended)
 
 1. Prerequisites:
@@ -39,11 +41,6 @@ The Dev Container is pre-configured for an optimal debugging experience:
 3. Access the frontend to trigger your breakpoints
 4. For frontend debugging, use browser Developer Tools (F12)
 
-> 💡 **Best Practice**: Starting with `F5` is recommended over using terminal commands as it:
-> - Automatically builds the project if needed
-> - Sets up proper debugging with all required environment variables
-> - Enables breakpoints in the .NET isolated process
-> - Shows console output in the Debug Console
 
 ## Key Project Files (Pre-Configured in Dev Container)
 
@@ -53,22 +50,6 @@ The Dev Container is pre-configured for an optimal debugging experience:
 - `.devcontainer/` - Dev container configuration for consistent environments
 
 ## Working in the Dev Container
-
-The Dev Container environment is preconfigured with:
-
-### Project Architecture
-- **Backend**: .NET 8 Azure Function (Isolated Process model)
-- **Frontend**: Vanilla JavaScript/HTML/CSS
-- **Data**: Uses mock data by default (Cosmos DB optional)
-- **CORS**: Pre-configured for local development
-
-### Dev Container Benefits
-- Consistent development environment across team members
-- No need to install dependencies locally
-- Identical behavior between development and CI/CD environments
-- Pre-configured VS Code settings and extensions
-
-## Dev Container Features
 
 The included Dev Container provides:
 
@@ -132,34 +113,8 @@ By default, the function uses mock data for immediate development. To use Cosmos
 - Check Docker is running on your host machine
 - Ensure ports 7124 and 5500 are available on your host
 
-## Deployment from Dev Container
-
-Deploy directly from within the Dev Container:
-
-1. `Ctrl+Shift+P` → Azure Functions: Deploy to Function App
-2. Authenticate with Azure (browser opens on host machine)
-3. Select or create resources and complete deployment
-4. All deployment tools are pre-installed in the Dev Container
-
-## VS Code Integration
-
-### Pre-configured Tasks
-- **⚡ build** (`Ctrl+Shift+B`) - Build the backend project
-- **📦 publish** - Prepare the project for deployment
-- **👁️ watch** - Watch for code changes and rebuild automatically
-
-### VS Code Features
-- **Integrated Terminal**: Run Azure Functions with terminal history preserved
-- **Source Control**: Git integration with built-in diff viewer
-- **Extensions**: Azure-related extensions pre-installed in Dev Container
-- **Launch Configurations**: Debug Azure Functions with F5
-
 ## Learning Resources
 
 - [Dev Containers Tutorial](https://code.visualstudio.com/docs/devcontainers/tutorial)
 - [Azure Functions in VS Code](https://learn.microsoft.com/en-us/azure/azure-functions/functions-develop-vs-code)
 - [.NET Isolated Process Guide](https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide)
-
-
-
-
