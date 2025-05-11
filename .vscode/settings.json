@@ -1,0 +1,18 @@
+{
+    "azureFunctions.projectSubpath": "backend",
+    "azureFunctions.deploySubpath": "backend/bin/Release/net8.0/publish",
+    "azureFunctions.projectLanguage": "C#",
+    "azureFunctions.projectRuntime": "~4",
+    "debug.internalConsoleOptions": "neverOpen",
+    "azureFunctions.preDeployTask": "publish",
+    "azureFunctions.hostRequiresCoreCLR": true,
+    "omnisharp.dotNetCliPaths": [
+        "/usr/share/dotnet"
+    ],
+    "csharp.debug.justMyCode": false,
+    "csharp.debug.symbolOptions": {
+        "searchPaths": ["${workspaceFolder}/backend/bin/Debug/net8.0/"],
+        "searchMicrosoftSymbolServer": true
+    },
+    "dotnet.defaultSolution": "az-function-app.sln"
+}

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "backend": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7124",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "Functions:Worker:HostEndpoint": "http://localhost:7124"
+      }
+    }
+  }
+}

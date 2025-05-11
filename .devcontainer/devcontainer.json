@@ -1,0 +1,24 @@
+{
+    "name": "Azure Function with Cosmos DB",
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "forwardPorts": [7071, 5500, 8081],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-azuretools.vscode-azurefunctions",
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.csdevkit",
+                "ms-vscode.azurecli",
+                "ritwickdey.liveserver",
+                "ms-dotnettools.dotnet-interactive-vscode"
+            ],
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            }
+        }
+    },
+    "remoteUser": "vscode",
+    "postCreateCommand": "dotnet restore ./backend"
+}
