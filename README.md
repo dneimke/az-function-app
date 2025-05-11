@@ -1,231 +1,165 @@
-# Vanilla JS Frontend with .NET C# Azure Function & Cosmos DB Backend
+# Azure Functions with JavaScript Frontend
 
-This project demonstrates a simple web application with:
+A full-stack web application with a JavaScript frontend and .NET Azure Function backend, optimized for development in VS Code with Dev Containers.
 
-- A vanilla JavaScript frontend that makes API calls to an Azure Function
-- A .NET C# Azure Function backend (using isolated process model) that connects to Cosmos DB
-- Local development setup with Azure Functions Core Tools and Cosmos DB Emulator
+## Dev Container Quick Start (Recommended)
 
-## Prerequisites
+1. Prerequisites:
+   - [VS Code](https://code.visualstudio.com/)
+   - [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+   - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-To run this project locally, you'll need:
+2. Open in VS Code with Dev Container:
+   - Clone this repository
+   - Open in VS Code
+   - When prompted, click "Reopen in Container"
+   - 🔄 Wait for container to build (all dependencies pre-installed!)
 
-1. [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-2. [Azure Functions Core Tools v4](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local)
-3. [Azure Cosmos DB Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
-4. [Visual Studio Code](https://code.visualstudio.com/) (recommended)
-5. VS Code Extensions:
-   - [Azure Functions](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurefunctions)
-   - [C#](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp)
-   - [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+3. Build the backend: `Ctrl+Shift+B`
 
-## Project Structure
-
-```
-az-function-app/
-├── .devcontainer/              # Dev container configuration
-├── backend/                    # Azure Function C# project
-│   ├── Functions/              # Azure Function code
-│   ├── Scripts/                # Setup scripts for Cosmos DB
-│   └── local.settings.json     # Local settings for Azure Functions
-├── index.html                  # Frontend HTML
-├── app.js                      # Frontend JavaScript
-├── styles.css                  # Frontend CSS
-└── az-function-app.code-workspace  # VS Code workspace configuration
-```
-
-## Setup Instructions
-
-### Option 1: Using Dev Containers (Recommended)
-
-If you have Docker installed and VS Code with the Remote - Containers extension:
-
-1. Open the project folder in VS Code
-2. When prompted, click "Reopen in Container"
-3. The dev container will install all necessary tools and dependencies
-
-### Option 2: Manual Setup
-
-1. Install the prerequisites listed above
-2. Start the Cosmos DB Emulator
-3. Initialize the Cosmos DB database and container:
-   ```powershell
-   cd backend
-   dotnet run --project Scripts/SetupCosmosDb.csproj
-   ```
-
-## Building the Application
-
-### Build the Azure Functions Backend
-
-1. Open the project in Visual Studio Code
-
-2. Build the backend with VS Code:
-   - Run the build task: Press `Ctrl+Shift+B` or run the "build" task from the Terminal menu
-   - Alternatively, use the Terminal:
+4. Start the Azure Function:
+   - ▶️ Press `F5` to start with debugging (recommended)
+   - This launches the Function with full debugging capabilities
+   - OR run in terminal:
      ```bash
-     cd backend
-     dotnet build
+     cd backend && func start
      ```
 
-3. The build artifacts will be created in the `/backend/bin/Debug/net8.0` directory
+5. Launch the frontend:
+   - 🔍 Right-click `index.html` → Open with Live Server
+   - 🌐 App opens at http://localhost:5500
 
-### Build the Frontend
+## Dev Container Debugging Experience
 
-The frontend uses vanilla JavaScript/HTML/CSS and doesn't require a build step.
+The Dev Container is pre-configured for an optimal debugging experience:
 
-## Running the Application
+1. Set breakpoints in `backend/Functions/MyFunction.cs`
+2. Press `F5` or select "Run and Debug" → "Debug Azure Functions (.NET Isolated)"
+   (This launches the Function app with full debugging capabilities)
+3. Access the frontend to trigger your breakpoints
+4. For frontend debugging, use browser Developer Tools (F12)
 
-### Option 1: Using VS Code
+> 💡 **Best Practice**: Starting with `F5` is recommended over using terminal commands as it:
+> - Automatically builds the project if needed
+> - Sets up proper debugging with all required environment variables
+> - Enables breakpoints in the .NET isolated process
+> - Shows console output in the Debug Console
 
-1. Open the VS Code workspace: `az-function-app.code-workspace`
+## Key Project Files (Pre-Configured in Dev Container)
 
-2. Start the Azure Functions backend:
-   - From the Terminal menu, select "Run Task" > "build"
-   - Then run the Azure Functions app:
-     ```bash
-     cd backend
-     func start
-     ```
+- `backend/Functions/MyFunction.cs` - Main function implementation
+- `app.js` - Frontend JavaScript that calls the function
+- `.vscode/launch.json` - VS Code debugging configuration (pre-configured)
+- `.devcontainer/` - Dev container configuration for consistent environments
 
-3. Start the frontend using Live Server:
-   - Right-click on `index.html` and select "Open with Live Server"
-   - Or use any HTTP server:
-     ```bash
-     npx http-server -p 5500
-     ```
+## Working in the Dev Container
 
-4. Open your browser to `http://localhost:5500` to access the web client
+The Dev Container environment is preconfigured with:
 
-### Option 2: Using the Command Line
+### Project Architecture
+- **Backend**: .NET 8 Azure Function (Isolated Process model)
+- **Frontend**: Vanilla JavaScript/HTML/CSS
+- **Data**: Uses mock data by default (Cosmos DB optional)
+- **CORS**: Pre-configured for local development
 
-1. Start the Azure Function:
-   ```bash
-   cd backend
-   func start
-   ```
+### Dev Container Benefits
+- Consistent development environment across team members
+- No need to install dependencies locally
+- Identical behavior between development and CI/CD environments
+- Pre-configured VS Code settings and extensions
 
-2. Start the frontend using a web server (in a new terminal):
-   ```bash
-   npx http-server -p 5500   # If you have Node.js installed
-   # Or use Python:
-   python -m http.server 5500
-   ```
+## Dev Container Features
 
-3. Open your browser to `http://localhost:5500`
+The included Dev Container provides:
 
-## Debugging the Application
+- 🛠️ Pre-installed tools: .NET SDK, Azure Functions Core Tools, Node.js
+- 📦 VS Code extensions: Azure Functions, C#, Live Server
+- 🔧 Preconfigured debugging setup for .NET isolated process functions
+- 🧪 Ready-to-use environment with consistent tooling for all developers
 
-### Debugging the Azure Functions Backend
+## Alternative Setup Method
 
-The Azure Functions project uses .NET Isolated process model, which requires specific configuration for debugging.
+If you can't use Dev Containers, run the appropriate script:
+- Linux/macOS: `./setup-and-run.sh`
+- Windows: `.\Setup-And-Run.ps1`
 
-#### Option 1: Using VS Code Debugger (Recommended)
+## Configuration in the Dev Container
 
-1. Set breakpoints in your Azure Functions code (e.g., in `backend/Functions/MyFunction.cs`)
+The Dev Container comes with all configurations pre-set for immediate development:
 
-2. Start debugging:
-   - Open the "Run and Debug" view in VS Code (Ctrl+Shift+D)
-   - Select "Debug Azure Functions (.NET Isolated)" from the dropdown menu
-   - Click the green "Start Debugging" button (or press F5)
+### CORS (Pre-configured)
 
-3. Make a request to your function from the web client to hit breakpoints
+Already set up in two places:
+- `backend/local.settings.json` (automatically loaded):
+  ```json
+  "Host": { "CORS": "*" }
+  ```
+- Function response headers in code:
+  ```csharp
+  response.Headers.Add("Access-Control-Allow-Origin", "*");
+  ```
 
-#### Option 2: Using the Debugging Script
+### Using Real Data (Optional)
 
-If you encounter issues with the VS Code debugger, you can use the provided debugging script:
+By default, the function uses mock data for immediate development. To use Cosmos DB:
 
-1. Set breakpoints in your code
-
-2. Run the debug script:
-   ```bash
-   ./debug-functions.sh
-   ```
-
-3. VS Code will attach to the process automatically, or you can:
-   - Go to "Run and Debug" view in VS Code
-   - Select "Attach to Azure Functions"
-   - Select the worker process when prompted
-
-#### Troubleshooting Breakpoints
-
-If breakpoints aren't being hit:
-
-1. Make sure the debugger is attached to the .NET Worker process, not just the Functions host
-2. Verify debug symbols are generated (`backend/bin/Debug/net8.0/backend.pdb`)
-3. Try adding `"debug_type": "portable"` to your `launch.json` configuration
-
-### Debugging the Web Client
-
-1. Open your browser's developer tools (F12 or right-click > Inspect)
-2. Navigate to the "Sources" or "Debugger" tab
-3. Set breakpoints in your JavaScript code (`app.js`)
-4. Interact with the web application to trigger the breakpoints
-
-## Using the Cosmos DB Emulator
-
-The Azure Function is configured to use mock data by default. To use Cosmos DB:
-
-1. Install and start the [Azure Cosmos DB Emulator](https://docs.microsoft.com/en-us/azure/cosmos-db/local-emulator)
-
-2. Initialize the database and container:
-   ```bash
-   cd backend
-   dotnet run --project Scripts/SetupCosmosDb.csproj
-   ```
-
-3. Update `backend/local.settings.json` to disable mock data:
+1. Open `backend/local.settings.json` in VS Code (already mounted in the container)
+2. Update settings:
    ```json
-   "UseMockData": "false"
+   "UseMockData": "false",
+   "CosmosDbConnectionString": "your-connection-string"
    ```
 
-4. To use a different Cosmos DB instance:
-   - Update the `CosmosDbConnectionString` in `backend/local.settings.json`
-   - Or set up user secrets:
-     ```bash
-     cd backend
-     dotnet user-secrets init
-     dotnet user-secrets set "CosmosDbConnectionString" "your-connection-string-here"
-     ```
+## Dev Container Troubleshooting
 
-## Cross-Origin Resource Sharing (CORS)
+### Breakpoints Not Working
 
-The Azure Function has CORS enabled to allow requests from your web client. The configuration:
+- Always start the function with `F5` using "Debug Azure Functions (.NET Isolated)" configuration
+- Avoid using terminal commands (`func start`) when debugging is needed
+- If breakpoints aren't hitting after using `F5`:
+  - Try rebuilding with `Ctrl+Shift+B`
+  - Check the Debug Console for any errors
 
-1. In `local.settings.json`:
-   ```json
-   "Host": {
-     "CORS": "*",
-     "CORSCredentials": false
-   }
-   ```
+### CORS Errors
 
-2. And also explicitly in the function response headers:
-   ```csharp
-   response.Headers.Add("Access-Control-Allow-Origin", "*");
-   ```
+- Verify Azure Function is running on port 7124 (automatically forwarded in Dev Container)
+- The Dev Container is pre-configured with correct CORS settings
+- If needed, check settings in `backend/local.settings.json` (mounted from host)
 
-## Deployment
+### Dev Container Issues
 
-### Azure Function Deployment
+- Try rebuilding: Command Palette (`Ctrl+Shift+P`) → Dev Containers: Rebuild Container
+- Check Docker is running on your host machine
+- Ensure ports 7124 and 5500 are available on your host
 
-To deploy the Azure Function to Azure:
+## Deployment from Dev Container
 
-1. Create an Azure Function resource in the Azure Portal
-2. Create an Azure Cosmos DB account
-3. Deploy the function:
-   ```powershell
-   cd backend
-   func azure functionapp publish <your-function-app-name>
-   ```
-4. Configure the application settings in the Azure Portal to include your production Cosmos DB connection string
+Deploy directly from within the Dev Container:
 
-### Frontend Deployment
+1. `Ctrl+Shift+P` → Azure Functions: Deploy to Function App
+2. Authenticate with Azure (browser opens on host machine)
+3. Select or create resources and complete deployment
+4. All deployment tools are pre-installed in the Dev Container
 
-The frontend can be deployed to Azure Static Web Apps or any static hosting service.
+## VS Code Integration
 
-## Additional Resources
+### Pre-configured Tasks
+- **⚡ build** (`Ctrl+Shift+B`) - Build the backend project
+- **📦 publish** - Prepare the project for deployment
+- **👁️ watch** - Watch for code changes and rebuild automatically
 
-- [Azure Functions Documentation](https://docs.microsoft.com/en-us/azure/azure-functions/)
-- [Azure Cosmos DB Documentation](https://docs.microsoft.com/en-us/azure/cosmos-db/)
-- [Working with Azure Functions in VS Code](https://docs.microsoft.com/en-us/azure/azure-functions/functions-develop-vs-code)
+### VS Code Features
+- **Integrated Terminal**: Run Azure Functions with terminal history preserved
+- **Source Control**: Git integration with built-in diff viewer
+- **Extensions**: Azure-related extensions pre-installed in Dev Container
+- **Launch Configurations**: Debug Azure Functions with F5
+
+## Learning Resources
+
+- [Dev Containers Tutorial](https://code.visualstudio.com/docs/devcontainers/tutorial)
+- [Azure Functions in VS Code](https://learn.microsoft.com/en-us/azure/azure-functions/functions-develop-vs-code)
+- [.NET Isolated Process Guide](https://learn.microsoft.com/en-us/azure/azure-functions/dotnet-isolated-process-guide)
+
+
+
+
