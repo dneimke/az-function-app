@@ -1,8 +1,8 @@
 {
     "name": "Azure Function with Cosmos DB",
-    "build": {
-        "dockerfile": "Dockerfile"
-    },
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspaces/az-function-app",
     "forwardPorts": [7071, 5500, 8081],
     "customizations": {
         "vscode": {
@@ -20,5 +20,5 @@
         }
     },
     "remoteUser": "vscode",
-    "postCreateCommand": "dotnet restore ./backend"
+    "postCreateCommand": "dotnet restore ./backend && dotnet build ./backend/Scripts/SetupCosmosDb.csproj"
 }

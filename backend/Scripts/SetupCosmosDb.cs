@@ -12,24 +12,24 @@ namespace Backend.Scripts
             Console.WriteLine("Setting up Cosmos DB...");
 
             // Check if Cosmos DB emulator is running
-            bool isEmulatorRunning = await IsCosmosDbEmulatorRunning();
+            bool isEmulatorRunning = await IsCosmosDbEmulatorRunning("https://cosmosdb:8081/");
 
             if (!isEmulatorRunning)
             {
-                Console.WriteLine("Cosmos DB emulator doesn't seem to be running.");
+                Console.WriteLine("Cosmos DB emulator doesn't seem to be running at cosmosdb:8081.");
                 Console.WriteLine("Setting up mock data for development instead...");
                 SetupMockData();
                 return;
             }
 
             // Read connection string from environment variable or configuration
-            string connectionString = Environment.GetEnvironmentVariable("CosmosDbConnectionString");
+            string? connectionString = Environment.GetEnvironmentVariable("CosmosDbConnectionString");
 
             if (string.IsNullOrEmpty(connectionString))
             {
                 // Fallback to the emulator connection string if not set
-                connectionString = "AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
-                Console.WriteLine("Using default Cosmos DB Emulator connection string.");
+                connectionString = "AccountEndpoint=https://cosmosdb:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
+                Console.WriteLine("Using default Cosmos DB Emulator connection string pointing to 'cosmosdb' service.");
             }
 
             var databaseName = "MyDatabase";
@@ -147,25 +147,41 @@ namespace Backend.Scripts
             Console.WriteLine("Your function app will now use mock data instead of trying to connect to Cosmos DB.");
         }
 
-        private static async Task<bool> IsCosmosDbEmulatorRunning()
+        private static async Task<bool> IsCosmosDbEmulatorRunning(string emulatorEndpoint = "https://localhost:8081/")
         {
-            // Use HttpClient with a handler that ignores the self-signed certificate
-            using var httpClientHandler = new HttpClientHandler
+            using var httpClient = new HttpClient(new HttpClientHandler
             {
-                ServerCertificateCustomValidationCallback = (_, _, _, _) => true
-            };
-
-            using var httpClient = new HttpClient(httpClientHandler);
-            httpClient.Timeout = TimeSpan.FromSeconds(5);
+                ServerCertificateCustomValidationCallback = (_, _, _, _) => true // Ignore SSL errors for emulator
+            });
 
             try
             {
-                // Try to connect to the emulator's status endpoint
-                var response = await httpClient.GetAsync("https://localhost:8081/");
-                return response.IsSuccessStatusCode;
+                // Try to access a well-known emulator endpoint
+                // The emulator's main page or a specific health check endpoint if available
+                Console.WriteLine($"Checking emulator status at: {emulatorEndpoint}");
+                var response = await httpClient.GetAsync(emulatorEndpoint);
+                // Check for a successful status code or specific content if necessary
+                // For now, any response from the base URL is considered "running"
+                // The emulator's main page returns 200 OK.
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Cosmos DB Emulator is running.");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine($"Cosmos DB Emulator returned status: {response.StatusCode}");
+                    return false;
+                }
             }
-            catch
+            catch (HttpRequestException ex)
             {
+                Console.WriteLine($"Failed to connect to Cosmos DB Emulator at {emulatorEndpoint}: {ex.Message}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while checking Cosmos DB Emulator status at {emulatorEndpoint}: {ex.Message}");
                 return false;
             }
         }
