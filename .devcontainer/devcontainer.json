@@ -20,5 +20,5 @@
         }
     },
     "remoteUser": "vscode",
-    "postCreateCommand": "dotnet restore ./backend && dotnet build ./backend/Scripts/SetupCosmosDb.csproj"
+    "postCreateCommand": "dotnet restore ./backend && dotnet restore ./Scripts && dotnet run --project ./Scripts/SetupCosmosDb.csproj"
 }

@@ -85,7 +85,7 @@ if ($null -eq $cosmosProcess) {
 
 # Set up database and container
 Write-Host "`nSetting up Cosmos DB database and container..." -ForegroundColor Cyan
-Set-Location -Path "$PSScriptRoot\backend\Scripts"
+Set-Location -Path "$PSScriptRoot\Scripts"
 dotnet build
 dotnet run --project SetupCosmosDb.csproj
 Set-Location -Path $PSScriptRoot

@@ -18,7 +18,7 @@ A full-stack web application with a JavaScript frontend and .NET Azure Function 
     *   🔄 Wait for the Dev Container to build and start. This will also pull and start the Azure Cosmos DB Emulator container.
 
 3.  **Cosmos DB Emulator Setup & Verification**:
-    *   The `postCreateCommand` in `.devcontainer/devcontainer.json` automatically runs the `backend/Scripts/SetupCosmosDb.cs` script.
+    *   The `postCreateCommand` in `.devcontainer/devcontainer.json` automatically runs the `Scripts/SetupCosmosDb.cs` script.
     *   This script checks if the Cosmos DB Emulator is running at `https://cosmosdb:8081/`.
     *   If the emulator is accessible, the script creates the `MyDatabase` database and `MyContainer` container, and seeds it with sample data.
     *   You can verify the emulator is running and explore the data by opening `https://localhost:8081/_explorer/index.html` in your web browser. You may need to accept a self-signed certificate warning.
@@ -54,7 +54,7 @@ The Dev Container is pre-configured for an optimal debugging experience:
 *   `.devcontainer/devcontainer.json`: Main configuration for the Dev Container, specifying the Docker Compose file and post-creation setup.
 *   `.devcontainer/docker-compose.yml`: Defines the `app` service (your development environment) and the `cosmosdb` service (Azure Cosmos DB Emulator).
 *   `.devcontainer/Dockerfile`: Defines the Docker image for the `app` service.
-*   `backend/Scripts/SetupCosmosDb.cs`: Script to initialize the database and container in the Cosmos DB Emulator.
+*   `Scripts/SetupCosmosDb.cs`: Script to initialize the database and container in the Cosmos DB Emulator.
 *   `backend/local.settings.json`: Configuration for the Azure Functions host, including the `CosmosDbConnectionString` pointing to the emulator.
 *   `.vscode/launch.json`: VS Code debugging configurations.
 *   `.vscode/tasks.json`: VS Code task configurations (e.g., for building the project).
