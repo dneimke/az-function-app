@@ -5,7 +5,7 @@ function Check-Command {
     param (
         [string]$Command
     )
-    
+
     if (Get-Command $Command -ErrorAction SilentlyContinue) {
         return $true
     }
@@ -55,13 +55,13 @@ $cosmosProcess = Get-Process -Name "CosmosDB.Emulator" -ErrorAction SilentlyCont
 if ($null -eq $cosmosProcess) {
     Write-Host "`nStarting Azure Cosmos DB Emulator..." -ForegroundColor Cyan
     Start-Process $cosmosEmulatorPath -ArgumentList "/NoFirewall", "/NoUI"
-    
+
     # Wait for emulator to start
     Write-Host "Waiting for Cosmos DB Emulator to start (this may take a minute)..." -ForegroundColor Yellow
     $timeout = 60
     $started = $false
     $timer = [Diagnostics.Stopwatch]::StartNew()
-    
+
     while ($timer.Elapsed.TotalSeconds -lt $timeout -and -not $started) {
         try {
             $response = Invoke-WebRequest -Uri "https://localhost:8081/_explorer/index.html" -UseBasicParsing -TimeoutSec 1 -ErrorAction SilentlyContinue
@@ -72,7 +72,7 @@ if ($null -eq $cosmosProcess) {
             Start-Sleep -Seconds 5
         }
     }
-    
+
     if ($started) {
         Write-Host "✓ Cosmos DB Emulator started successfully" -ForegroundColor Green
     } else {

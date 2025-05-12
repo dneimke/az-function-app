@@ -72,8 +72,8 @@ namespace Backend.Scripts
                     new { id = "1", name = "Sample Item 1", description = "This is a sample item 1" },
                     new { id = "2", name = "Sample Item 2", description = "This is a sample item 2" },
                     new { id = "3", name = "Sample Item 3", description = "This is a sample item 3" }
-                }; 
-                
+                };
+
                 foreach (var item in sampleItems)
                 {
                     try
